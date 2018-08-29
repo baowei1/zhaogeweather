@@ -1,5 +1,6 @@
 package net.sunniwell.zhaogeweather.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import net.sunniwell.zhaogeweather.R;
 import net.sunniwell.zhaogeweather.gson.Forcecast;
 import net.sunniwell.zhaogeweather.gson.Weather;
+import net.sunniwell.zhaogeweather.service.AutoUpdateService;
 import net.sunniwell.zhaogeweather.utils.HttpUtil;
 import net.sunniwell.zhaogeweather.utils.LogUtil;
 import net.sunniwell.zhaogeweather.utils.Utility;
@@ -187,6 +189,8 @@ public class WeatherActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("weather", responseText);
                             editor.apply();
+                            Intent intent = new Intent(WeatherActivity.this, AutoUpdateService.class);
+                            startService(intent);
                             showWeatherInfo(weather);
                         } else {
                             Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
